@@ -66,13 +66,8 @@ def featured_image(browser):
     browser.visit(url)
 
     # Find and click the full image button
-    full_image_elem = browser.find_by_tag('button')[1]
+    full_image_elem = browser.find_by_tag('button')[0]
     full_image_elem.click()
-
-    # # Find the more info button and click that
-    # browser.is_element_present_by_text('more info', wait_time=1)
-    # more_info_elem = browser.links.find_by_partial_text('more info')
-    # more_info_elem.click()
 
     # Parse the resulting html with soup
     html = browser.html
@@ -101,7 +96,8 @@ def mars_facts():
         return None
 
     # Assign columns and set index of dataframe
-    df.columns=['Description', 'Mars']
+    print(df.columns)
+    df.columns=['Description', 'Mars', 'Earth']
     df.set_index('Description', inplace=True)
 
     # Convert dataframe into HTML format, add bootstrap
