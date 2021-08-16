@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[29]:
-
-
 # Import Splinter and BeautifulSoup
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
@@ -11,11 +5,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import re
 
-
 executable_path = {'executable_path':'C:/Users/icani/Desktop/Class/work/Mars_Scraping/chromedriver'}
 
-browser = Browser('chrome', **executable_path, headless=True)
-
+browser = Browser('chrome', **executable_path, headless=False)
 
 # Visit the mars nasa news site
 url = 'https://redplanetscience.com'
@@ -23,19 +15,15 @@ browser.visit(url)
 # Optional delay for loading the page
 browser.is_element_present_by_css('div.list_text', wait_time=1)
 
-
 html = browser.html
 news_soup = soup(html, 'html.parser')
 slide_elem = news_soup.select_one('div.list_text')
 
-
 slide_elem.find('div', class_='content_title')
-
 
 # Use the parent element to find the first `a` tag and save it as `news_title`
 news_title = slide_elem.find('div', class_='content_title').get_text()
 news_title
-
 
 # Use the parent element to find the paragraph text
 news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
@@ -61,7 +49,6 @@ img_soup = soup(html, 'html.parser')
 img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
 img_url_rel
 
-
 # Use the base URL to create an absolute URL
 img_url = f'https://spaceimages-mars.com/{img_url_rel}'
 img_url
@@ -74,7 +61,6 @@ df.columns=['description', 'Mars', 'Earth']
 df.set_index('description', inplace=True)
 df
 
-
 df.to_html()
 
 
@@ -82,13 +68,11 @@ df.to_html()
 
 # ### Hemispheres
 
-
 # 1. Use browser to visit the URL 
 url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
 #'https://marshemispheres.com/'
 
 browser.visit(url)
-
 
 # 2. Create a list to hold the images and titles.
 hemisphere_image_urls = []
@@ -130,13 +114,8 @@ for relative_url in relative_urls:
     }
     hemisphere_image_urls.append(hemispheres)
 
-
 # 4. Print the list that holds the dictionary of each image url and title.
 hemisphere_image_urls
 
 # 5. Quit the browser
 browser.quit()
-
-
-
-
