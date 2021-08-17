@@ -5,7 +5,7 @@ import pandas as pd
 import datetime as dt
 from webdriver_manager.chrome import ChromeDriverManager
 import re
-from time import sleep
+
 
 def scrape_all():
     # Initiate headless driver for deployment
@@ -28,7 +28,7 @@ def scrape_all():
     }
 
     # Stop webdriver and return data
-    browser.quit()
+    #browser.quit()
     return data
 
 
@@ -71,12 +71,12 @@ def featured_image(browser):
 
     # Parse the resulting html with soup
     html = browser.html
-    img_soup = soup(html, 'html.parser') 
+    img_soup = soup(html, 'html.parser')
 
     # Add try/except for error handling
     try:
         # Find the relative image url
-        img_url_rel = img_soup.select_one('figure.lede a img').get("src")
+        img_url_rel = img_soup.find('img', class_='fancybox-image').get('src')
 
     except AttributeError:
         return None
@@ -108,7 +108,7 @@ def scrape_hemisphere_data(browser):
     # visit the URL 
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(url)
-    sleep(2)
+    
     # Create a list to hold the images and titles.
     hemisphere_image_urls = []
 
